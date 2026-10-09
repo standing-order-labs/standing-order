@@ -1,0 +1,19 @@
+# Rust
+/target
+**/*.rs.bk
+
+# Soroban / Stellar
+.soroban/
+.stellar/
+test_snapshots/
+
+# Secrets - never commit keys
+.env
+.env.*
+*.secret
+*.key
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
