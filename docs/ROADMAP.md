@@ -7,7 +7,7 @@ Dates are intentionally omitted; milestones are ordered by priority. Each item m
 - [x] Plans, subscriptions, permissionless `charge`, cancellation
 - [x] Unit tests, CI, build/deploy scripts
 - [x] Architecture and security docs
-- [ ] Testnet deployment recorded in `docs/deployments/testnet.md`
+- [x] Testnet deployment recorded in `docs/deployments/testnet.md`
 
 ## v0.2 - Hardening
 

@@ -11,11 +11,26 @@ Standing Order is an open-source Soroban contract that fills that gap: merchants
 
 > **Status:** `v0.1.0` is a working base, not production software. It has **not been audited**. Do not use it with real funds.
 
+**Live on testnet:** contract `CC35ZGUDYXYVX3JLP4WK5SS4WTTY45ZLI6V53YY7DFOTJACCK5BTN56D` (details in [`docs/deployments/testnet.md`](docs/deployments/testnet.md)).
+
 ## Why it matters
 
 - **Real demand.** Software subscriptions, creator memberships, rent, payroll and utilities are all recurring payments. Stablecoin rails are only useful for them if renewals can happen without a manual signature each time.
 - **Trust-minimized.** Subscribers keep custody. The merchant can only pull the plan amount, once per period, within the token allowance the subscriber granted. Cancelling is one call.
 - **Composable.** Works with any SEP-41 token (USDC, EURC, local-currency assets) and emits indexer-friendly events.
+
+## Design choices
+
+- **One shared contract for all merchants**, not a factory of per-merchant contracts: cheaper and easier to audit.
+- **Pull model via token allowance**, not escrow: no locked funds and no custody risk.
+- **Permissionless `charge`**: anyone (a keeper bot, the merchant, the subscriber) can trigger a due payment. Destination, amount and timing are fixed by the plan, so the caller cannot change them.
+- **First period paid on `subscribe`**, so merchants are paid immediately and the subscriber's balance is verified up front.
+- **Missed periods are skipped, never back-billed**, to avoid surprise multi-month charges after keeper downtime.
+- **No admin keys and no upgrade path in v0.1**, by design.
+
+## Related work
+
+Other recurring-payment and streaming projects exist in the Stellar ecosystem. Standing Order focuses on a small, auditable, token-agnostic subscription primitive plus open keeper tooling, rather than a full billing platform.
 
 ## How it works
 
@@ -72,6 +87,15 @@ docs/                             Architecture, roadmap, deployment records, iss
 scripts/                          build / test / deploy helpers
 .github/                          CI, issue + PR templates, Dependabot
 ```
+
+## Ecosystem (planned repositories)
+
+| Repository                | Purpose                                                  | Status  |
+| ------------------------- | -------------------------------------------------------- | ------- |
+| `standing-order`          | Soroban contracts (this repo)                            | Active  |
+| `standing-order-sdk`      | TypeScript SDK generated from the contract bindings      | Planned |
+| `standing-order-keeper`   | Keeper bot that scans subscriptions and calls `charge`   | Planned |
+| `standing-order-app`      | Next.js demo with Freighter on testnet                   | Planned |
 
 ## Roadmap
 
