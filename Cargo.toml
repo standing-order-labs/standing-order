@@ -10,7 +10,7 @@ rust-version = "1.91.0"
 repository = "https://github.com/standing-order-labs/standing-order"
 
 [workspace.dependencies]
-soroban-sdk = "29.0.0"
+soroban-sdk = "30.0.0"
 
 [profile.release]
 opt-level = "z"
